@@ -17,6 +17,7 @@ import SQLi from "./web/SqlInjection";
 import AboutUs from "./AboutUs";
 import FeedRSS from "./FeedRSS";
 import FileTransfer from "./file_transfer/File_transfer";
+import http_repeater from "./http_modules/http_repeater";
 import PersistedState from "use-persisted-state";
 
 const { Paragraph } = Typography;
@@ -167,6 +168,17 @@ export default (props) => {
     },
     {
       key: "14",
+      icon: (
+        <IconFont
+          type="icon-about"
+          style={{ fontSize: "1.5em", marginTop: 3 }}
+        />
+      ),
+      name: "HTTP Replay",
+      componentRoute: http_repeater,
+    },
+    {
+      key: "15",
       icon: (
         <IconFont
           type="icon-about"

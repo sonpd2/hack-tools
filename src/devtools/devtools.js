@@ -8,3 +8,8 @@ navigator.userAgent.indexOf('Chrome') != -1 &&
 		'index.html', // html page which is gonna be injecting into the tab's content
 		null // callback function here
 	);
+
+	chrome.tabs.query({'active': true, 'lastFocusedWindow': true, 'currentWindow': true}, function (tabs) {
+		var url = tabs[0].url;
+		console.log(url);
+	});

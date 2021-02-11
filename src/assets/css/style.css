@@ -261,8 +261,61 @@
 	textarea.ant-input {
 		border-color: #424242 !important;
 	}
+
 	.ant-btn-text {
 		color: rgba(255, 255, 255, 0.65) !important;
+	}
+
+	.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+		background-color: transparent !important;
+		border: 1px solid #434343 !important;
+		border-radius: 2px !important;
+		transition: all .3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+	}
+
+	.ant-select {
+		color: rgba(255, 255, 255, 0.65) !important;
+	}
+
+	.ant-select-arrow {
+		color: #797979 !important;
+	}
+
+	.ant-input-group-addon {
+		color: rgba(255, 255, 255, 0.65) !important;
+		background-color: rgba(255, 255, 255, 0.04) !important;
+		border: 1px solid #434343 !important;
+	}
+
+	.ant-input-group-addon .ant-select.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+		background-color: inherit !important;
+		border: 1px solid transparent !important;
+		box-shadow: none !important;
+	}
+
+	.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+		color: rgba(255, 255, 255, 0.65) !important;
+		background-color: #111b26 !important;
+	}
+
+	.ant-select-item {
+		color: rgba(255, 255, 255, 0.65) !important;
+		transition: background .3s ease !important;
+	}
+
+	.ant-select-dropdown {
+		color: rgba(255, 255, 255, 0.65) !important;
+		background-color: #1f1f1f !important;
+		box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%) !important;
+	}
+
+	.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+		color: rgba(255, 255, 255, 0.65) !important;
+		background-color: #111b26 !important;
+	}
+
+	.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+		background-color: rgba(255, 255, 255, 0.08) !important;
 	}
 }
 

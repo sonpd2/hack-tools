@@ -40,7 +40,7 @@ export default (props) => {
 					}}
 					description={<span>Error getting the data please contact us.</span>}
 				>
-					<pre>{error.message}</pre>
+					<pre style={{ color: 'gray' }}>{error.message}</pre>
 					<Button danger>
 						<a href='https://github.com/LasCC/Hack-Tools/issues' rel='noreferrer noopener' target='_blank'>
 							Report the bug

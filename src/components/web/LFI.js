@@ -209,7 +209,6 @@ export default (props) => {
 					);
 				})}
 			</div>
-			<Divider dashed />
 		</QueueAnim>
 	);
 };

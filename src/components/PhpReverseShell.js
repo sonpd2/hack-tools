@@ -1,5 +1,5 @@
 import React from 'react';
-import  PersistedState from 'use-persisted-state';
+import PersistedState from 'use-persisted-state';
 import { Input, Button, message, Typography, Row, Col, Divider, Collapse } from 'antd';
 import {
 	CopyOutlined,

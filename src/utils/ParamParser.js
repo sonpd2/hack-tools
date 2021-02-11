@@ -1,34 +1,31 @@
 function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
-    function(m,key,value) {
-      vars[key] = value;
-    });
-    return vars;
+	var vars = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+		vars[key] = value;
+	});
+	return vars;
 }
-
-
 
 function postForm(path, params, method) {
-    method = method || 'post';
+	method = method || 'post';
 
-    var form = document.createElement('form');
-    form.setAttribute('method', method);
-    form.setAttribute('action', path);
+	var form = document.createElement('form');
+	form.setAttribute('method', method);
+	form.setAttribute('action', path);
 
-    for (var key in params) {
-        if (params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement('input');
-            hiddenField.setAttribute('type', 'hidden');
-            hiddenField.setAttribute('name', key);
-            hiddenField.setAttribute('value', params[key]);
+	for (var key in params) {
+		if (params.hasOwnProperty(key)) {
+			var hiddenField = document.createElement('input');
+			hiddenField.setAttribute('type', 'hidden');
+			hiddenField.setAttribute('name', key);
+			hiddenField.setAttribute('value', params[key]);
 
-            form.appendChild(hiddenField);
-        }
-    }
+			form.appendChild(hiddenField);
+		}
+	}
 
-    document.body.appendChild(form);
-    form.submit();
+	document.body.appendChild(form);
+	form.submit();
 }
 
-postForm('http://www.google.com/form', {arg1: 'value1', arg2: 'value2'});
+postForm('http://www.google.com/form', { arg1: 'value1', arg2: 'value2' });

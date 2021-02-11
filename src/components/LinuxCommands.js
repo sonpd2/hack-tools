@@ -69,7 +69,7 @@ export default (props) => {
 		{ title: 'chkconfig --list' },
 		{ title: 'chkconfig --list | grep 3:on' },
 		{ title: 'last' },
-		{ title: 'lastlog' },
+		{ title: 'lastlog' }
 	];
 	const PortForwarding = [
 		{

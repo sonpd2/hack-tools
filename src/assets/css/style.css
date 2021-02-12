@@ -337,3 +337,8 @@ body {
 	min-width: 750px;
 	min-height: auto;
 }
+
+.icon-size {
+	font-size: 1.5em !important;
+	margin-top: 3px !important;
+}

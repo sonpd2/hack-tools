@@ -30,25 +30,25 @@ export default (props) => {
 	const Tabs = [
 		{
 			key: '1',
-			icon: <IconFont type='icon-gnubash' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-gnubash' className='icon-size' />,
 			name: 'Reverse Shell',
 			componentRoute: ReverseShell
 		},
 		{
 			key: '2',
-			icon: <IconFont type='icon-php' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-php' className='icon-size' />,
 			name: 'PHP Reverse Shell',
 			componentRoute: PhpReverseShell
 		},
 		{
 			key: '3',
-			icon: <IconFont type='icon-lvzhou_yuanchengTelnet' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-lvzhou_yuanchengTelnet' className='icon-size' />,
 			name: 'TTY Spawn Shell',
 			componentRoute: TtySpawnShell
 		},
 		{
 			key: '4',
-			icon: <IconFont type='icon-linux' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-linux' className='icon-size' />,
 			name: 'Useful Linux commands',
 			componentRoute: LinuxCommands
 		},
@@ -56,7 +56,7 @@ export default (props) => {
 			key: '5',
 			icon: (
 				<Badge dot size='small' style={{ transform: `translate(5px, 3px)` }}>
-					<IconFont type='icon-powershell' style={{ fontSize: '1.5em', marginTop: 3 }} />
+					<IconFont type='icon-powershell' className='icon-size' />
 				</Badge>
 			),
 			name: '',
@@ -64,43 +64,43 @@ export default (props) => {
 		},
 		{
 			key: '6',
-			icon: <IconFont type='icon-transfer' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-transfer' className='icon-size' />,
 			name: 'Transfer Methods',
 			componentRoute: FileTransfer
 		},
 		{
 			key: '7',
-			icon: <IconFont type='icon-l-file' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-l-file' className='icon-size' />,
 			name: 'LFI',
 			componentRoute: LFI
 		},
 		{
 			key: '8',
-			icon: <IconFont type='icon-js' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-js' className='icon-size' />,
 			name: 'XSS',
 			componentRoute: XSS
 		},
 		{
 			key: '9',
-			icon: <IconFont type='icon-sql' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-sql' className='icon-size' />,
 			name: 'SQL Injection',
 			componentRoute: SQLi
 		},
 		{
 			key: '10',
-			icon: <IconFont type='icon-jiemaleixing' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-jiemaleixing' className='icon-size' />,
 			name: 'Base64 Encoder / Decoder',
 			componentRoute: Base64Encode
 		},
 		{
 			key: '11',
-			icon: <IconFont type='icon-hash' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-hash' className='icon-size' />,
 			name: 'Hashing',
 			componentRoute: Hashing
 		},
 		{
 			key: '12',
-			icon: <IconFont type='icon-hexo' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-hexo' className='icon-size' />,
 			name: 'Hexadecimal Encoder / Decoder',
 			componentRoute: HexEncode
 		},
@@ -108,7 +108,7 @@ export default (props) => {
 			key: '13',
 			icon: (
 				<Badge dot size='small' style={{ transform: `translate(3px, 5px)` }}>
-					<IconFont type='icon-Cloud' style={{ fontSize: '1.5em', marginTop: 3 }} />
+					<IconFont type='icon-Cloud' className='icon-size' />
 				</Badge>
 			),
 			name: '',
@@ -116,13 +116,13 @@ export default (props) => {
 		},
 		{
 			key: '14',
-			icon: <IconFont type='icon-about' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-http' className='icon-size' />,
 			name: 'HTTP Replay',
 			componentRoute: http_repeater
 		},
 		{
 			key: '15',
-			icon: <IconFont type='icon-about' style={{ fontSize: '1.5em', marginTop: 3 }} />,
+			icon: <IconFont type='icon-about' className='icon-size' />,
 			name: 'About us',
 			componentRoute: AboutUs
 		}

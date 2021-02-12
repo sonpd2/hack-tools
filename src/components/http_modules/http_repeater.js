@@ -1,8 +1,7 @@
-import React from 'react';
-import { Button, Typography, Row, Col, Input, Select, Spin, Result, Empty, Divider, message, Descriptions } from 'antd';
-import { useQuery } from 'react-query';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions } from 'antd';
 import PersistedState from 'use-persisted-state';
+import axios from 'axios';
 import QueueAnim from 'rc-queue-anim';
 
 const { Title, Paragraph, Text } = Typography;
@@ -26,73 +25,20 @@ export default (props) => {
 	const handleChangeSelect = (name) => (event) => {
 		setValues({ ...values, [name]: event });
 	};
-	const url = 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url;
 
-	const { isLoading, isError, data, error, refetch, isFetching, clear } = useQuery(
-		'fetchData',
-		async () => {
-			const response = await fetch(url, {
-				method: values.type, // *GET, POST, PUT, DELETE, etc.
-				mode: 'cors', // no-cors, *cors, same-origin
-				crossDomain: true,
-				cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-				credentials: 'same-origin', // include, *same-origin, omit
-				redirect: 'follow', // manual, *follow, error
-				referrer: values.protocol + values.url,
-				headers: {
-					'Content-Type': 'application/json',
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				referrerPolicy: 'no-referrer' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-			});
-			return response.json();
-		},
-		{
-			retry: 0,
-			retryDelay: 5000,
-			refetchOnWindowFocus: false,
-			refetchOnMount: false,
-			refetchOnReconnect: true,
-			forceFetchOnMount: false
-		}
-	);
-	console.log(data);
-
-	if (isLoading) {
-		return (
-			<div style={{ textAlign: 'center', marginTop: 25 }}>
-				<Spin tip='Loading...' />
-			</div>
-		);
-	}
-	if (isError) {
-		return (
-			<div>
-				<Empty
-					style={{ marginTop: 25 }}
-					image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
-					imageStyle={{
-						height: 60
-					}}
-					description={<span>Error getting the data please contact us.</span>}
-				>
-					<pre style={{ color: 'gray', marginBottom: 15 }}>{error.message}</pre>
-					<Button danger>
-						<a href='https://github.com/LasCC/Hack-Tools/issues' rel='noreferrer noopener' target='_blank'>
-							Report the bug
-						</a>
-					</Button>
-					<Button
-						type='link'
-						style={{ marginLeft: 15 }}
-						onClick={(localStorage.removeItem('http_url_repeater'), refetch())}
-					>
-						Change your request
-					</Button>
-				</Empty>
-			</div>
-		);
-	}
+	const [ content, setContent ] = useState([]);
+	const [ loading, setLoading ] = useState();
+	const fetchData = async () => {
+		setLoading(true);
+		await axios({
+			method: values.type,
+			url: 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url
+		}).then((res) => {
+			setContent(res);
+			console.log(res);
+			setLoading(false);
+		});
+	};
 
 	return (
 		<QueueAnim delay={300} duration={1500}>
@@ -138,85 +84,47 @@ export default (props) => {
 					<Input
 						style={{ borderColor: '#434343' }}
 						onChange={handleChange('url')}
-						onSubmit={() => refetch()}
+						onSubmit={() => fetchData()}
 						value={values.url}
 						placeholder='http://127.0.0.1:8080/home/?a=1 OR example.com'
 					/>
 				</Col>
 				<Col>
-					<Button type='primary' onClick={() => refetch()}>
+					<Button type='primary' onClick={() => fetchData()}>
 						Send
 					</Button>
 				</Col>
 				<Col>
-					<Button type='link' danger onClick={() => clear()}>
+					<Button type='link' danger onClick={() => fetchData()}>
 						Reset request
 					</Button>
 				</Col>
 			</Row>
-			<div>{isFetching ? loadingMessage() : null}</div>
-			{(() => {
-				if (data != null) {
-					return (
-						<div style={{ padding: 15 }}>
-							<Descriptions title='Request info' style={{ marginBottom: 15 }}>
-								<Descriptions.Item label='Status code'>
-									{data.status} {data.statusText}
-								</Descriptions.Item>
-								<Descriptions.Item label='Origin'>{data.origin}</Descriptions.Item>
-								<Descriptions.Item label='Content-Type'>
-									{`data.headers.Content-Type`}
-								</Descriptions.Item>
-								<Descriptions.Item label='URL'>
-									<a href={values.protocol + values.url} target='_blank'>
-										{values.protocol + values.url}
-									</a>
-								</Descriptions.Item>
-							</Descriptions>
-							<Row gutter={[ 16, 16 ]}>
-								<Col span={12}>
-									<TextArea autoSize={{ minRows: 5 }} value={''} rows={4} />
-								</Col>
-								<Col span={12}>
-									<TextArea
-										autoSize={{ minRows: 5 }}
-										value={JSON.stringify(data.headers, undefined, 2)}
-									/>
-								</Col>
-							</Row>
-						</div>
-					);
-				} else {
-					return (
-						<Result
-							status='error'
-							title='Something went wrong'
-							subTitle='Please check and modify the following information before resubmitting.'
-						>
-							<div className='desc'>
-								<Paragraph>
-									<Text
-										strong
-										style={{
-											fontSize: 16
-										}}
-									>
-										The content you submitted has the following error:
-									</Text>
-								</Paragraph>
-								<Paragraph>
-									<CloseCircleOutlined className='site-result-demo-error-icon' /> The value that you
-									submitted <b>does not exist</b>.
-								</Paragraph>
-								<Paragraph>
-									<CloseCircleOutlined className='site-result-demo-error-icon' /> The{' '}
-									<b>API is in maintenance</b>, please try again.
-								</Paragraph>
-							</div>
-						</Result>
-					);
-				}
-			})()}
+			<div>{loading && loadingMessage()}</div>
+			{!loading && (
+				<div style={{ padding: 15 }}>
+					<Descriptions title='Request info' style={{ marginBottom: 15 }}>
+						<Descriptions.Item label='Status code'>
+							{content.status} {content.statusText}
+						</Descriptions.Item>
+						<Descriptions.Item label='Origin'>{'content.data'}</Descriptions.Item>
+						<Descriptions.Item label='Content-Type'>{'content.headers.content - type'}</Descriptions.Item>
+						<Descriptions.Item label='URL'>
+							<a href={values.protocol + values.url} target='_blank'>
+								{values.protocol + values.url}
+							</a>
+						</Descriptions.Item>
+					</Descriptions>
+					<Row gutter={[ 16, 16 ]}>
+						<Col span={12}>
+							<TextArea autoSize={{ minRows: 5 }} value={''} rows={4} />
+						</Col>
+						<Col span={12}>
+							<TextArea autoSize={{ minRows: 5 }} value={JSON.stringify(content.data, undefined, 2)} />
+						</Col>
+					</Row>
+				</div>
+			)};
 		</QueueAnim>
 	);
 };

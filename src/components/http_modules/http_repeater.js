@@ -1,17 +1,19 @@
 import React from 'react';
 import { Button, Typography, Row, Col, Input, Select, Spin, Result, Empty, Divider, message, Descriptions } from 'antd';
 import { useQuery } from 'react-query';
+import { CloseCircleOutlined } from '@ant-design/icons';
 import PersistedState from 'use-persisted-state';
 import QueueAnim from 'rc-queue-anim';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
 
 export default (props) => {
 	const http_url = PersistedState('http_url_repeater');
 
 	const [ values, setValues ] = http_url({
-		url: 'risibank.fr/',
+		// httpbin.org/get
+		url: 'httpbin.org/get',
 		protocol: 'http://',
 		type: 'GET'
 	});
@@ -24,34 +26,36 @@ export default (props) => {
 	const handleChangeSelect = (name) => (event) => {
 		setValues({ ...values, [name]: event });
 	};
+	const url = 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url;
 
-	const postData = async () => {
-		// https://cors-hack-tools.herokuapp.com/
-		const response = await fetch(`https://cors-hack-tools.herokuapp.com/${values.protocol}${values.url}`, {
-			method: values.type, // *GET, POST, PUT, DELETE, etc.
-			mode: 'cors', // no-cors, *cors, same-origin
-			crossDomain: true,
-			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-			credentials: 'same-origin', // include, *same-origin, omit
-			redirect: 'follow', // manual, *follow, error
-			referrer: values.protocol + values.url,
-			/*
-			headers: {
-					'Content-Type': 'application/json'
-					'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			*/
-			referrerPolicy: 'no-referrer' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-			//body: JSON.stringify(data) // body data type must match "Content-Type" header
-		});
-		console.log(response.headers.get('Content-Type'));
-		console.log(JSON.stringify(response.text()));
-		return response;
-	};
-	const { isLoading, isError, data, error, refetch, isFetching, clear } = useQuery('', postData, {
-		retry: 0,
-		retryDelay: 5000
-	});
+	const { isLoading, isError, data, error, refetch, isFetching, clear } = useQuery(
+		'fetchData',
+		async () => {
+			const response = await fetch(url, {
+				method: values.type, // *GET, POST, PUT, DELETE, etc.
+				mode: 'cors', // no-cors, *cors, same-origin
+				crossDomain: true,
+				cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+				credentials: 'same-origin', // include, *same-origin, omit
+				redirect: 'follow', // manual, *follow, error
+				referrer: values.protocol + values.url,
+				headers: {
+					'Content-Type': 'application/json',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				referrerPolicy: 'no-referrer' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+			});
+			return response.json();
+		},
+		{
+			retry: 0,
+			retryDelay: 5000,
+			refetchOnWindowFocus: false,
+			refetchOnMount: false,
+			refetchOnReconnect: true,
+			forceFetchOnMount: false
+		}
+	);
 	console.log(data);
 
 	if (isLoading) {
@@ -159,9 +163,9 @@ export default (props) => {
 								<Descriptions.Item label='Status code'>
 									{data.status} {data.statusText}
 								</Descriptions.Item>
-								<Descriptions.Item label='Type'>{data.type.toUpperCase()}</Descriptions.Item>
+								<Descriptions.Item label='Origin'>{data.origin}</Descriptions.Item>
 								<Descriptions.Item label='Content-Type'>
-									{data.headers.get('Content-Type') || 'none'}
+									{`data.headers.Content-Type`}
 								</Descriptions.Item>
 								<Descriptions.Item label='URL'>
 									<a href={values.protocol + values.url} target='_blank'>
@@ -176,7 +180,7 @@ export default (props) => {
 								<Col span={12}>
 									<TextArea
 										autoSize={{ minRows: 5 }}
-										value={JSON.stringify(data.text, undefined, 2)}
+										value={JSON.stringify(data.headers, undefined, 2)}
 									/>
 								</Col>
 							</Row>

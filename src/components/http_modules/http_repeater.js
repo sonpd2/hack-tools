@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography, Row, Col, Input, Select, Spin, Result, Empty, Divider, Descriptions } from 'antd';
+import { Button, Typography, Row, Col, Input, Select, Spin, Result, Empty, Divider, message, Descriptions } from 'antd';
 import { useQuery } from 'react-query';
 import PersistedState from 'use-persisted-state';
 import QueueAnim from 'rc-queue-anim';
@@ -11,10 +11,13 @@ export default (props) => {
 	const http_url = PersistedState('http_url_repeater');
 
 	const [ values, setValues ] = http_url({
-		url: 'httpbin.org/get',
+		url: 'risibank.fr/',
 		protocol: 'http://',
 		type: 'GET'
 	});
+	const loadingMessage = () => {
+		message.loading({ content: 'Loading...' });
+	};
 	const handleChange = (name) => (event) => {
 		setValues({ ...values, [name]: event.target.value });
 	};
@@ -23,7 +26,8 @@ export default (props) => {
 	};
 
 	const postData = async () => {
-		const res = await fetch(`${values.protocol}${values.url}`, {
+		// https://cors-hack-tools.herokuapp.com/
+		const response = await fetch(`https://cors-hack-tools.herokuapp.com/${values.protocol}${values.url}`, {
 			method: values.type, // *GET, POST, PUT, DELETE, etc.
 			mode: 'cors', // no-cors, *cors, same-origin
 			crossDomain: true,
@@ -37,12 +41,17 @@ export default (props) => {
 					'Content-Type': 'application/x-www-form-urlencoded',
 			},
 			*/
-			referrerPolicy: 'origin-when-cross-origin' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+			referrerPolicy: 'no-referrer' // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 			//body: JSON.stringify(data) // body data type must match "Content-Type" header
 		});
-		return res;
+		console.log(response.headers.get('Content-Type'));
+		console.log(JSON.stringify(response.text()));
+		return response;
 	};
-	const { isLoading, isError, data, error, refetch, isFetching, clear } = useQuery('', postData);
+	const { isLoading, isError, data, error, refetch, isFetching, clear } = useQuery('', postData, {
+		retry: 0,
+		retryDelay: 5000
+	});
 	console.log(data);
 
 	if (isLoading) {
@@ -87,8 +96,10 @@ export default (props) => {
 				HTTP Repeater
 			</Title>
 			<Paragraph style={{ marginLeft: 15 }}>
-				A reverse shell is a shell session established on a connection that is initiated from a remote machine,
-				not from the local host.
+				HTTP Repeater is a simple tool for manually manipulating and reissuing individual HTTP and WebSocket
+				messages, and analyzing the application's responses. You can use Repeater for all kinds of purposes,
+				such as changing parameter values to test for input-based vulnerabilities, issuing requests in a
+				specific sequence to test for logic flaws.
 			</Paragraph>
 			<Divider dashed />
 			<Row gutter={[ 16, 16 ]} style={{ padding: 15 }}>
@@ -139,62 +150,69 @@ export default (props) => {
 					</Button>
 				</Col>
 			</Row>
-			<div>
-				{isFetching ? (
-					<div style={{ textAlign: 'center', marginTop: 25 }}>
-						<Spin tip='Loading...' />
-					</div>
-				) : null}
-			</div>
-			{data != null ? (
-				<div style={{ padding: 15 }}>
-					<Descriptions title='Request info' style={{ marginBottom: 15 }}>
-						<Descriptions.Item label='Status code'>{data.status}</Descriptions.Item>
-						<Descriptions.Item label='Redirected'>{data.redirected}</Descriptions.Item>
-						<Descriptions.Item label='Type'>{data.type}</Descriptions.Item>
-						<Descriptions.Item label='URL'>
-							<a href={data.url} target='_blank'>
-								{data.url}
-							</a>
-						</Descriptions.Item>
-					</Descriptions>
-					<Row gutter={[ 16, 16 ]}>
-						<Col span={12}>
-							<TextArea autoSize={{ minRows: 5 }} value={''} rows={4} />
-						</Col>
-						<Col span={12}>
-							<TextArea autoSize={{ minRows: 5 }} value={JSON.stringify(data, undefined, 2)} />
-						</Col>
-					</Row>
-				</div>
-			) : (
-				<Result
-					status='error'
-					title='Something went wrong'
-					subTitle='Please check and modify the following information before resubmitting.'
-				>
-					<div className='desc'>
-						<Paragraph>
-							<Text
-								strong
-								style={{
-									fontSize: 16
-								}}
-							>
-								The content you submitted has the following error:
-							</Text>
-						</Paragraph>
-						<Paragraph>
-							<CloseCircleOutlined className='site-result-demo-error-icon' /> The value that you submitted{' '}
-							<b>does not exist</b>.
-						</Paragraph>
-						<Paragraph>
-							<CloseCircleOutlined className='site-result-demo-error-icon' /> The{' '}
-							<b>API is in maintenance</b>, please try again.
-						</Paragraph>
-					</div>
-				</Result>
-			)}
+			<div>{isFetching ? loadingMessage() : null}</div>
+			{(() => {
+				if (data != null) {
+					return (
+						<div style={{ padding: 15 }}>
+							<Descriptions title='Request info' style={{ marginBottom: 15 }}>
+								<Descriptions.Item label='Status code'>
+									{data.status} {data.statusText}
+								</Descriptions.Item>
+								<Descriptions.Item label='Type'>{data.type.toUpperCase()}</Descriptions.Item>
+								<Descriptions.Item label='Content-Type'>
+									{data.headers.get('Content-Type') || 'none'}
+								</Descriptions.Item>
+								<Descriptions.Item label='URL'>
+									<a href={values.protocol + values.url} target='_blank'>
+										{values.protocol + values.url}
+									</a>
+								</Descriptions.Item>
+							</Descriptions>
+							<Row gutter={[ 16, 16 ]}>
+								<Col span={12}>
+									<TextArea autoSize={{ minRows: 5 }} value={''} rows={4} />
+								</Col>
+								<Col span={12}>
+									<TextArea
+										autoSize={{ minRows: 5 }}
+										value={JSON.stringify(data.text, undefined, 2)}
+									/>
+								</Col>
+							</Row>
+						</div>
+					);
+				} else {
+					return (
+						<Result
+							status='error'
+							title='Something went wrong'
+							subTitle='Please check and modify the following information before resubmitting.'
+						>
+							<div className='desc'>
+								<Paragraph>
+									<Text
+										strong
+										style={{
+											fontSize: 16
+										}}
+									>
+										The content you submitted has the following error:
+									</Text>
+								</Paragraph>
+								<Paragraph>
+									<CloseCircleOutlined className='site-result-demo-error-icon' /> The value that you
+									submitted <b>does not exist</b>.
+								</Paragraph>
+								<Paragraph>
+									<CloseCircleOutlined className='site-result-demo-error-icon' /> The{' '}
+									<b>API is in maintenance</b>, please try again.
+								</Paragraph>
+							</div>
+						</Result>
+					);
+				}
+			})()}
 		</QueueAnim>
 	);
 };

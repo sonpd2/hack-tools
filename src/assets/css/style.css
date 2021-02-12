@@ -317,6 +317,12 @@
 	.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
 		background-color: rgba(255, 255, 255, 0.08) !important;
 	}
+
+	.ant-message-notice-content {
+		color: rgba(255, 255, 255, 0.65) !important;
+		background: #1f1f1f !important;
+		box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%) !important;
+	}
 }
 
 .iconfont {

@@ -11,8 +11,7 @@ import {
 	Descriptions,
 	Modal,
 	Tabs,
-	Skeleton,
-	Space
+	Skeleton
 } from 'antd';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';

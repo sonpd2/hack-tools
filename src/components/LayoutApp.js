@@ -3,21 +3,21 @@ import { Layout, Menu, Typography, Button, Badge } from 'antd';
 import { CopyrightCircleOutlined, FullscreenOutlined, ArrowsAltOutlined } from '@ant-design/icons';
 import { createFromIconfontCN } from '@ant-design/icons';
 import { goTo } from 'react-chrome-extension-router';
-import ReverseShell from './ReverseShell';
-import PhpReverseShell from './PhpReverseShell';
-import TtySpawnShell from './TtySpawnShell';
-import Base64Encode from './encoding/Base64Encode';
-import HexEncode from './encoding/HexEncode';
-import Hashing from './encoding/Hashing';
-import LinuxCommands from './LinuxCommands';
-import PowershellCommands from './PowershellCommands';
-import LFI from './web/LFI';
-import XSS from './web/XSS';
-import SQLi from './web/SqlInjection';
+import ReverseShell from './Linux_Shell/ReverseShell';
+import PhpReverseShell from './Web/PhpReverseShell';
+import TtySpawnShell from './Linux_Shell/TtySpawnShell';
+import Base64Encode from './Encoding/Base64Encode';
+import HexEncode from './Encoding/HexEncode';
+import Hashing from './Encoding/Hashing';
+import LinuxCommands from './Linux_Shell/LinuxCommands';
+import PowershellCommands from './Linux_Shell/PowershellCommands';
+import LFI from './Web/LFI';
+import XSS from './Web/XSS';
+import SQLi from './Web/SqlInjection';
 import AboutUs from './AboutUs';
-import FeedRSS from './FeedRSS';
-import FileTransfer from './file_transfer/File_transfer';
-import http_repeater from './http_modules/http_repeater';
+import FeedRSS from './RSS/FeedRSS';
+import FileTransfer from './File_Transfer/FileTransfer';
+import HTTPRepeater from './HTTP_Modules/HTTPRepeater';
 import PersistedState from 'use-persisted-state';
 
 const { Paragraph } = Typography;
@@ -118,7 +118,7 @@ export default (props) => {
 				</Badge>
 			),
 			name: '',
-			componentRoute: http_repeater
+			componentRoute: HTTPRepeater
 		},
 		{
 			key: '15',

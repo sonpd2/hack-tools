@@ -106,18 +106,18 @@ export default (props) => {
 		},
 		{
 			key: '13',
-			icon: (
-				<Badge dot size='small' style={{ transform: `translate(3px, 5px)` }}>
-					<IconFont type='icon-Cloud' className='icon-size' />
-				</Badge>
-			),
-			name: '',
+			icon: <IconFont type='icon-Cloud' className='icon-size' />,
+			name: 'Feed RSS',
 			componentRoute: FeedRSS
 		},
 		{
 			key: '14',
-			icon: <IconFont type='icon-http' className='icon-size' />,
-			name: 'HTTP Replay',
+			icon: (
+				<Badge dot size='small' style={{ transform: `translate(3px, 5px)` }}>
+					<IconFont type='icon-http' className='icon-size' />
+				</Badge>
+			),
+			name: '',
 			componentRoute: http_repeater
 		},
 		{
@@ -143,9 +143,9 @@ export default (props) => {
 	};
 
 	const target = window.location.href;
-	const windowmode = () => {
-		const width = 750;
-		const height = 600;
+	const windowMode = () => {
+		const width = 1100;
+		const height = 800;
 
 		chrome.windows.create({
 			url: chrome.extension.getURL('index.html'),
@@ -205,7 +205,7 @@ export default (props) => {
 							Fullscreen mode
 						</a>
 					</Button>
-					<Button icon={<ArrowsAltOutlined style={{ margin: 5 }} />} onClick={() => windowmode()} type='link'>
+					<Button icon={<ArrowsAltOutlined style={{ margin: 5 }} />} onClick={() => windowMode()} type='link'>
 						Pop-up mode
 					</Button>
 				</Footer>

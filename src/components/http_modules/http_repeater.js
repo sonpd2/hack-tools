@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
-import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal } from 'antd';
-import PersistedState from 'use-persisted-state';
+import {
+	Button,
+	Typography,
+	Row,
+	Col,
+	Input,
+	Select,
+	Divider,
+	message,
+	Descriptions,
+	Modal,
+	Tabs,
+	Skeleton,
+	Space
+} from 'antd';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import QueueAnim from 'rc-queue-anim';
 import axios from 'axios';
 
 const { Title, Paragraph } = Typography;
+const { TabPane } = Tabs;
 const { TextArea } = Input;
 
 export default (props) => {
@@ -38,7 +53,10 @@ export default (props) => {
 		setValues({ ...values, [name]: event });
 	};
 
+	// Axios fetch
 	const [ content, setContent ] = useState([]);
+	const [ headerContent, setHeaderContent ] = useState([]);
+	const [ commentResponse, setCommentResponse ] = useState([]);
 	const [ loading, setLoading ] = useState();
 	const fetchData = async () => {
 		setLoading(true);
@@ -46,10 +64,13 @@ export default (props) => {
 			method: values.type,
 			url: 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url,
 			headers: {}
-		}).then(({ ...res }) => {
-			setContent(res);
-			console.log(res);
+		}).then((res) => {
 			setLoading(false);
+			setContent(res);
+			setHeaderContent(res.headers['content-type']);
+			console.log(res);
+			const commentOnlyRegex = res.data.match(RegExp(/<!--.*?-->/, 'g'));
+			if (commentOnlyRegex != null) setCommentResponse(commentOnlyRegex);
 		});
 	};
 	return (
@@ -120,12 +141,13 @@ export default (props) => {
 							{content.status} {content.statusText}
 						</Descriptions.Item>
 						<Descriptions.Item label='Origin'>{'content.data'}</Descriptions.Item>
-						<Descriptions.Item label='Content-Type'>{`content.headers.content-type`}</Descriptions.Item>
+						<Descriptions.Item label='Content-Type'>{headerContent}</Descriptions.Item>
 						<Descriptions.Item label='URL'>
 							<a href={values.protocol + values.url} target='_blank'>
-								{values.protocol + values.url}
+								{values.protocol + values.url || <Skeleton />}
 							</a>
 						</Descriptions.Item>
+						<Skeleton />
 					</Descriptions>
 					<Row gutter={[ 16, 16 ]} style={{ marginBottom: 15 }}>
 						<Col span={12}>
@@ -143,21 +165,41 @@ export default (props) => {
 							/>
 						</Col>
 					</Row>
-					<Button type='primary' onClick={showModal}>
-						Show the HTML response
-					</Button>
-					<Modal
-						title='HTML Response'
-						onCancel={handleCancel}
-						visible={isModalVisible}
-						onOk={handleOk}
-						style={{ width: '100%', padding: 0 }}
-					>
-						<div dangerouslySetInnerHTML={{ __html: content.data || '' }} />
-					</Modal>
-					<SyntaxHighlighter language='htmlbars' style={vs2015} showLineNumbers={true}>
-						{content.data || ''}
-					</SyntaxHighlighter>
+					<Tabs defaultActiveKey='1'>
+						<TabPane tab='HTML Response' key='1'>
+							<Row justify='end' style={{ marginTop: 5 }}>
+								<Col>
+									<Button type='primary' onClick={showModal}>
+										Render the HTML
+									</Button>
+								</Col>
+							</Row>
+							<Modal
+								title='HTML Response'
+								onCancel={handleCancel}
+								visible={isModalVisible}
+								onOk={handleOk}
+								width={650}
+							>
+								<div dangerouslySetInnerHTML={{ __html: content.data || '' }} />
+							</Modal>
+							<SyntaxHighlighter language='htmlbars' style={vs2015} showLineNumbers={true}>
+								{content.data || ''}
+							</SyntaxHighlighter>
+						</TabPane>
+						<TabPane tab='Comment Only' key='2'>
+							{commentResponse.map((e) => {
+								return (
+									<SyntaxHighlighter language='htmlbars' style={vs2015}>
+										{e};
+									</SyntaxHighlighter>
+								);
+							})}
+						</TabPane>
+						<TabPane tab='Tab 3' key='3'>
+							Content of Tab Pane 3
+						</TabPane>
+					</Tabs>
 				</div>
 			)}
 		</QueueAnim>

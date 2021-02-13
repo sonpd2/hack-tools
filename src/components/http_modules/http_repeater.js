@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
-import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions } from 'antd';
+import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal } from 'antd';
 import PersistedState from 'use-persisted-state';
-import axios from 'axios';
+import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import QueueAnim from 'rc-queue-anim';
+import axios from 'axios';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
 
 export default (props) => {
 	const http_url = PersistedState('http_url_repeater');
+	const [ isModalVisible, setIsModalVisible ] = useState(false);
 
+	const showModal = () => {
+		setIsModalVisible(true);
+	};
+	const handleOk = () => {
+		setIsModalVisible(false);
+	};
+	const handleCancel = () => {
+		setIsModalVisible(false);
+	};
 	const [ values, setValues ] = http_url({
 		// httpbin.org/get
-		url: 'httpbin.org/get',
+		url: 'lipsum.com',
 		protocol: 'http://',
 		type: 'GET'
 	});
@@ -32,14 +44,14 @@ export default (props) => {
 		setLoading(true);
 		await axios({
 			method: values.type,
-			url: 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url
-		}).then((res) => {
+			url: 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url,
+			headers: {}
+		}).then(({ ...res }) => {
 			setContent(res);
 			console.log(res);
 			setLoading(false);
 		});
 	};
-
 	return (
 		<QueueAnim delay={300} duration={1500}>
 			<Title variant='Title level={3}' style={{ fontWeight: 'bold', margin: 15 }}>
@@ -108,23 +120,46 @@ export default (props) => {
 							{content.status} {content.statusText}
 						</Descriptions.Item>
 						<Descriptions.Item label='Origin'>{'content.data'}</Descriptions.Item>
-						<Descriptions.Item label='Content-Type'>{'content.headers.content - type'}</Descriptions.Item>
+						<Descriptions.Item label='Content-Type'>{`content.headers.content-type`}</Descriptions.Item>
 						<Descriptions.Item label='URL'>
 							<a href={values.protocol + values.url} target='_blank'>
 								{values.protocol + values.url}
 							</a>
 						</Descriptions.Item>
 					</Descriptions>
-					<Row gutter={[ 16, 16 ]}>
+					<Row gutter={[ 16, 16 ]} style={{ marginBottom: 15 }}>
 						<Col span={12}>
-							<TextArea autoSize={{ minRows: 5 }} value={''} rows={4} />
+							<TextArea
+								autoSize={{ minRows: 5 }}
+								value={JSON.stringify(content.headers, undefined, 2)}
+								rows={4}
+							/>
 						</Col>
 						<Col span={12}>
-							<TextArea autoSize={{ minRows: 5 }} value={JSON.stringify(content.data, undefined, 2)} />
+							<TextArea
+								autoSize={{ minRows: 5 }}
+								value={JSON.stringify(content.headers, undefined, 2)}
+								rows={4}
+							/>
 						</Col>
 					</Row>
+					<Button type='primary' onClick={showModal}>
+						Show the HTML response
+					</Button>
+					<Modal
+						title='HTML Response'
+						onCancel={handleCancel}
+						visible={isModalVisible}
+						onOk={handleOk}
+						style={{ width: '100%', padding: 0 }}
+					>
+						<div dangerouslySetInnerHTML={{ __html: content.data || '' }} />
+					</Modal>
+					<SyntaxHighlighter language='htmlbars' style={vs2015} showLineNumbers={true}>
+						{content.data || ''}
+					</SyntaxHighlighter>
 				</div>
-			)};
+			)}
 		</QueueAnim>
 	);
 };

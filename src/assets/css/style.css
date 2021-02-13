@@ -323,6 +323,27 @@
 		background: #1f1f1f !important;
 		box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%) !important;
 	}
+	.ant-modal-header {
+		color: rgba(255, 255, 255, 0.65) !important;
+		background: #1f1f1f !important;
+		border-bottom: 1px solid #303030 !important;
+	}
+	.ant-modal-close {
+		color: rgba(255, 255, 255, 0.45) !important;
+		background: transparent !important;
+	}
+	.ant-modal-title {
+		color: rgba(255, 255, 255, 0.85) !important;
+	}
+	.ant-modal-footer {
+		background: #1f1f1f !important;
+		border-top: 1px solid #303030 !important;
+		border-radius: 0 0 2px 2px !important;
+	}
+	.ant-modal-content {
+		box-shadow: 0 3px 6px -4px rgb(0 0 0 / 48%), 0 6px 16px 0 rgb(0 0 0 / 32%), 0 9px 28px 8px rgb(0 0 0 / 20%) !important;
+		pointer-events: auto !important;
+	}
 }
 
 .iconfont {

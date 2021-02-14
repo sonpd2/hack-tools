@@ -1,18 +1,5 @@
 import React, { useState } from 'react';
-import {
-	Button,
-	Typography,
-	Row,
-	Col,
-	Input,
-	Select,
-	Divider,
-	message,
-	Descriptions,
-	Modal,
-	Tabs,
-	Skeleton
-} from 'antd';
+import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs } from 'antd';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -56,22 +43,32 @@ export default (props) => {
 	const [ content, setContent ] = useState([]);
 	const [ headerContent, setHeaderContent ] = useState([]);
 	const [ commentResponse, setCommentResponse ] = useState([]);
+	const [ inputResponse, setInputResponse ] = useState([]);
 	const [ loading, setLoading ] = useState();
 	const fetchData = async () => {
 		setLoading(true);
 		await axios({
 			method: values.type,
 			url: 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url,
-			headers: {}
-		}).then((res) => {
-			setLoading(false);
-			setContent(res);
-			setHeaderContent(res.headers['content-type']);
-			console.log(res);
-			const commentOnlyRegex = res.data.match(RegExp(/<!--.*?-->/, 'g'));
-			if (commentOnlyRegex != null) setCommentResponse(commentOnlyRegex);
-		});
+			headers: {},
+			auth: {}
+		})
+			.then((res) => {
+				setLoading(false);
+				setContent(res);
+				setHeaderContent(res.headers['content-type']);
+				console.log(res);
+				const commentOnlyRegex = res.data.match(RegExp(/<!--.*?-->/, 'g'));
+				if (commentOnlyRegex != null) setCommentResponse(commentOnlyRegex);
+				const inputOnlyRegex = res.data.match(RegExp(/<input(.*?)\>/, 'g'));
+				if (inputOnlyRegex != null) setInputResponse(inputOnlyRegex);
+			})
+			.catch((err) => {
+				message.error(err);
+				console.log(err);
+			});
 	};
+
 	return (
 		<QueueAnim delay={300} duration={1500}>
 			<Title variant='Title level={3}' style={{ fontWeight: 'bold', margin: 15 }}>
@@ -143,10 +140,9 @@ export default (props) => {
 						<Descriptions.Item label='Content-Type'>{headerContent}</Descriptions.Item>
 						<Descriptions.Item label='URL'>
 							<a href={values.protocol + values.url} target='_blank'>
-								{values.protocol + values.url || <Skeleton />}
+								{values.protocol + values.url}
 							</a>
 						</Descriptions.Item>
-						<Skeleton />
 					</Descriptions>
 					<Row gutter={[ 16, 16 ]} style={{ marginBottom: 15 }}>
 						<Col span={12}>
@@ -168,7 +164,7 @@ export default (props) => {
 						<TabPane tab='HTML Response' key='1'>
 							<Row justify='end' style={{ marginTop: 5 }}>
 								<Col>
-									<Button type='primary' onClick={showModal}>
+									<Button type='text' onClick={showModal}>
 										Render the HTML
 									</Button>
 								</Col>
@@ -187,16 +183,22 @@ export default (props) => {
 							</SyntaxHighlighter>
 						</TabPane>
 						<TabPane tab='Comment Only' key='2'>
-							{commentResponse.map((e) => {
+							{commentResponse.map((matches) => {
 								return (
 									<SyntaxHighlighter language='htmlbars' style={vs2015}>
-										{e};
+										{matches};
 									</SyntaxHighlighter>
 								);
 							})}
 						</TabPane>
-						<TabPane tab='Tab 3' key='3'>
-							Content of Tab Pane 3
+						<TabPane tab='Input Only' key='3'>
+							{inputResponse.map((matches) => {
+								return (
+									<SyntaxHighlighter language='htmlbars' style={vs2015}>
+										{matches};
+									</SyntaxHighlighter>
+								);
+							})}
 						</TabPane>
 					</Tabs>
 				</div>

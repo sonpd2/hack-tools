@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs, Alert } from 'antd';
+import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs, Alert , AutoComplete  } from 'antd';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -46,6 +46,43 @@ export default (props) => {
 	const [ commentResponse, setCommentResponse ] = useState([]);
 	const [ inputResponse, setInputResponse ] = useState([]);
 	const [ loading, setLoading ] = useState();
+	const [headerdata, setHeaderdata ] = {}
+	const [headerlist,setHeaderlists] = useState([
+		{
+			id : 1 ,
+			header : {
+				name : "Header name",
+				value : "Header value",
+			}
+		},
+		
+	]);
+	const manageHeader = (action) => {
+		const last_index = [...headerlist].pop().id + 1;		
+		console.log(headerlist)
+		if(action === "add") setHeaderlists([...headerlist, {
+			id :  last_index,
+			header : {
+				name : "Header name",
+				value : "Header value",
+			}
+		},])
+		else if (action === "remove")  setHeaderlists(headerlist.splice(1))
+	} 
+	const editHeader = ({id,name,value}) => {
+		 
+		const index = headerlist.findIndex(hd => hd.id === id),
+		const headerlist = [headerlist] // important to create a copy, otherwise you'll modify state outside of setState call
+		const headernewData = {
+			id ,
+			header : {
+				name ,
+				value ,
+			}
+		}
+		headerlist[index] = employee;
+		setHeaderlists(headerlist);
+	}
 	const fetchData = async () => {
 		setLoading(true);
 		await axios({
@@ -131,7 +168,7 @@ export default (props) => {
 				</Col>
 			</Row>
 			<div>{loading && loadingMessage()}</div>
-			{content != '' ? (
+			
 				<div style={{ padding: 15 }}>
 					<Descriptions title='Request info' style={{ marginBottom: 15 }}>
 						<Descriptions.Item label='Status code'>
@@ -147,11 +184,56 @@ export default (props) => {
 					</Descriptions>
 					<Row gutter={[ 16, 16 ]} style={{ marginBottom: 15 }}>
 						<Col span={12}>
-							<TextArea
-								autoSize={{ minRows: 5 }}
-								value={JSON.stringify(content.headers, undefined, 2)}
-								rows={4}
-							/>
+
+
+						<Tabs defaultActiveKey='1'>
+						<TabPane tab='Request Headers' key='1'>
+							<Row justify='end' style={{ marginTop: 5 }}>
+								<Col>
+									<Button type='text' onClick={showModal}>
+										Render the HTML
+									</Button>
+								</Col>
+							</Row>
+							<Modal
+								title='Request Headers'
+								onCancel={handleCancel}
+								visible={isModalVisible}
+								onOk={handleOk}
+								width={650}
+							>
+						 
+							</Modal>
+							 
+					
+					 
+					
+
+
+								<Input.Group size="large">
+									{headerlist.map(x => 
+										<Row gutter={8} key={x.id}>
+											<Col span={5}>
+											<Input placeholder="Header Name" value={"" || x.header.name} onChange={e => editHeader(x.id , e)  } />
+											</Col>
+											<Col span={8}>
+											<Input placeholder="Header Value" value={"" || x.header.value} />
+											</Col>
+										</Row>
+										)}
+
+										<div style={{ padding: 15 }}>
+											<Button  
+												type='primary'
+												onClick={() => manageHeader("add")}
+
+											>Add Header</Button>
+											<Button type='danger' onClick={() => manageHeader("remove")}>Remove Header</Button>
+										</div>
+									
+									</Input.Group>
+									</TabPane>
+							</Tabs>
 						</Col>
 						<Col span={12}>
 							<TextArea
@@ -160,7 +242,10 @@ export default (props) => {
 								rows={4}
 							/>
 						</Col>
+					<div/>
 					</Row>
+					{content != '' ? (
+				<div style={{ padding: 15 }}>
 					<Tabs defaultActiveKey='1'>
 						<TabPane tab='HTML Response' key='1'>
 							<Row justify='end' style={{ marginTop: 5 }}>
@@ -170,6 +255,7 @@ export default (props) => {
 									</Button>
 								</Col>
 							</Row>
+						
 							<Modal
 								title='HTML Response'
 								onCancel={handleCancel}
@@ -213,6 +299,7 @@ export default (props) => {
 					/>
 				</div>
 			)}
+			</div>
 		</QueueAnim>
 	);
 };

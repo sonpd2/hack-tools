@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs } from 'antd';
+import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs, Alert } from 'antd';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -54,9 +54,9 @@ export default (props) => {
 			auth: {}
 		})
 			.then((res) => {
-				setLoading(false);
-				setContent(res);
-				setHeaderContent(res.headers['content-type']);
+				setLoading(false); // Set the loading to false
+				setContent(res); // Axios response
+				setHeaderContent(res.headers['content-type']); // Header content
 				console.log(res);
 				const commentOnlyRegex = res.data.match(RegExp(/<!--.*?-->/, 'g'));
 				if (commentOnlyRegex != null) setCommentResponse(commentOnlyRegex);
@@ -130,7 +130,7 @@ export default (props) => {
 				</Col>
 			</Row>
 			<div>{loading && loadingMessage()}</div>
-			{!loading && (
+			{content != '' ? (
 				<div style={{ padding: 15 }}>
 					<Descriptions title='Request info' style={{ marginBottom: 15 }}>
 						<Descriptions.Item label='Status code'>
@@ -201,6 +201,15 @@ export default (props) => {
 							})}
 						</TabPane>
 					</Tabs>
+				</div>
+			) : (
+				<div style={{ padding: 15 }}>
+					<Alert
+						message='Informational Notes'
+						description='Additional description and information' // Temp message
+						type='info'
+						showIcon
+					/>
 				</div>
 			)}
 		</QueueAnim>

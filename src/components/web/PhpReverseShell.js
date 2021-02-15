@@ -181,7 +181,7 @@ export default (props) => {
   // (I can't figure out how to redirect STDOUT like a proper daemon)
   function printit ($string) {
     if (!$daemon) {
-      print "$string\n";
+      print "$string";
     }
   }
 

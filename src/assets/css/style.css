@@ -353,6 +353,16 @@
 	.ant-tabs-bottom > div > .ant-tabs-nav::before {
 		border-bottom: 1px solid #303030 !important;
 	}
+	.ant-alert-info {
+		background-color: #111b26 !important;
+		border: 1px solid #153450 !important;
+	}
+	.ant-alert-with-description .ant-alert-message {
+		color: rgba(255, 255, 255, 0.85) !important;
+	}
+	.ant-alert {
+		color: rgba(255, 255, 255, 0.65) !important;
+	}
 }
 
 .iconfont {

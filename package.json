@@ -31,6 +31,7 @@
 		"antd-mask-input": "0.1.13",
 		"axios": "^0.21.1",
 		"crypto-js": "^4.0.0",
+		"pretty": "^2.0.0",
 		"rc-queue-anim": "1.8.5",
 		"react": "^16.8.6",
 		"react-chrome-extension-router": "^1.1.0",

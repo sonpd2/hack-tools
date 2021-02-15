@@ -10,6 +10,7 @@ import {
 	createFromIconfontCN
 } from '@ant-design/icons';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import pretty from 'pretty';
 import QueueAnim from 'rc-queue-anim';
 import Clipboard from 'react-clipboard.js';
 
@@ -233,7 +234,7 @@ export default (props) => {
 				<Collapse defaultActiveKey={[ '0' ]}>
 					<Panel header='View the souce code' key='1'>
 						<SyntaxHighlighter language='php' style={vs2015} showLineNumbers={true}>
-							{phpReverseShell}
+							{pretty(phpReverseShell)}
 						</SyntaxHighlighter>
 						<Button type='dashed' style={{ marginBottom: 10, marginTop: 15 }}>
 							<a

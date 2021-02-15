@@ -4,6 +4,7 @@ import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import QueueAnim from 'rc-queue-anim';
+import pretty from 'pretty';
 import axios from 'axios';
 
 const { Title, Paragraph } = Typography;
@@ -60,7 +61,7 @@ export default (props) => {
 				console.log(res);
 				const commentOnlyRegex = res.data.match(RegExp(/<!--.*?-->/, 'g'));
 				if (commentOnlyRegex != null) setCommentResponse(commentOnlyRegex);
-				const inputOnlyRegex = res.data.match(RegExp(/<input(.*?)\>/, 'g'));
+				const inputOnlyRegex = res.data.match(RegExp(/<form(.*?)<\/form>/, 'g'));
 				if (inputOnlyRegex != null) setInputResponse(inputOnlyRegex);
 			})
 			.catch((err) => {
@@ -179,7 +180,7 @@ export default (props) => {
 								<div dangerouslySetInnerHTML={{ __html: content.data || '' }} />
 							</Modal>
 							<SyntaxHighlighter language='htmlbars' style={vs2015} showLineNumbers={true}>
-								{content.data || ''}
+								{pretty(content.data) || ''}
 							</SyntaxHighlighter>
 						</TabPane>
 						<TabPane tab='Comment Only' key='2'>
@@ -191,11 +192,11 @@ export default (props) => {
 								);
 							})}
 						</TabPane>
-						<TabPane tab='Input Only' key='3'>
+						<TabPane tab='Form / Input Only' key='3'>
 							{inputResponse.map((matches) => {
 								return (
-									<SyntaxHighlighter language='htmlbars' style={vs2015}>
-										{matches};
+									<SyntaxHighlighter language='htmlbars' style={vs2015} showLineNumbers={true}>
+										{pretty(matches)};
 									</SyntaxHighlighter>
 								);
 							})}

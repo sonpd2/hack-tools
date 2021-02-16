@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
-import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs, Alert } from 'antd';
+import {
+	Button,
+	Typography,
+	Row,
+	Col,
+	Input,
+	Select,
+	Divider,
+	message,
+	Descriptions,
+	Modal,
+	Tabs,
+	Alert,
+	Empty
+} from 'antd';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -190,7 +204,11 @@ export default (props) => {
 										{matches};
 									</SyntaxHighlighter>
 								);
-							})}
+							}) ? (
+								<Empty style={{ marginTop: 15 }} />
+							) : (
+								''
+							)}
 						</TabPane>
 						<TabPane tab='Form / Input Only' key='3'>
 							{inputResponse.map((matches) => {
@@ -199,7 +217,11 @@ export default (props) => {
 										{pretty(matches)};
 									</SyntaxHighlighter>
 								);
-							})}
+							}) ? (
+								<Empty style={{ marginTop: 15 }} />
+							) : (
+								''
+							)}
 						</TabPane>
 					</Tabs>
 				</div>

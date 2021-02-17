@@ -1,19 +1,5 @@
 import React, { useState } from 'react';
-import {
-	Button,
-	Typography,
-	Row,
-	Col,
-	Input,
-	Select,
-	Divider,
-	message,
-	Descriptions,
-	Modal,
-	Tabs,
-	Alert,
-	Empty
-} from 'antd';
+import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs, Alert } from 'antd';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -64,7 +50,7 @@ export default (props) => {
 		setLoading(true);
 		await axios({
 			method: values.type,
-			url: 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url,
+			url: 'https://cors-hack-tools.herokuapp.com/' + values.protocol + values.url.replace(/https?:\/\//, ''),
 			headers: {},
 			auth: {}
 		})
@@ -129,7 +115,7 @@ export default (props) => {
 						style={{ borderColor: '#434343' }}
 						onChange={handleChange('url')}
 						onSubmit={() => fetchData()}
-						value={values.url}
+						value={values.url.replace(/https?:\/\//, '')}
 						placeholder='http://127.0.0.1:8080/home/?a=1 OR example.com'
 					/>
 				</Col>
@@ -197,32 +183,28 @@ export default (props) => {
 								{pretty(content.data) || ''}
 							</SyntaxHighlighter>
 						</TabPane>
-						<TabPane tab='Comment Only' key='2'>
-							{commentResponse.map((matches) => {
-								return (
-									<SyntaxHighlighter language='htmlbars' style={vs2015}>
-										{matches};
-									</SyntaxHighlighter>
-								);
-							}) ? (
-								<Empty style={{ marginTop: 15 }} />
-							) : (
-								''
-							)}
-						</TabPane>
-						<TabPane tab='Form / Input Only' key='3'>
-							{inputResponse.map((matches) => {
-								return (
-									<SyntaxHighlighter language='htmlbars' style={vs2015} showLineNumbers={true}>
-										{pretty(matches)};
-									</SyntaxHighlighter>
-								);
-							}) ? (
-								<Empty style={{ marginTop: 15 }} />
-							) : (
-								''
-							)}
-						</TabPane>
+						{commentResponse != '' && (
+							<TabPane tab='Comment Only' key='2'>
+								{commentResponse.map((matches) => {
+									return (
+										<SyntaxHighlighter language='htmlbars' style={vs2015}>
+											{matches};
+										</SyntaxHighlighter>
+									);
+								})}
+							</TabPane>
+						)}
+						{inputResponse != '' && (
+							<TabPane tab='Form / Input Only' key='3'>
+								{inputResponse.map((matches) => {
+									return (
+										<SyntaxHighlighter language='htmlbars' style={vs2015} showLineNumbers={true}>
+											{pretty(matches)};
+										</SyntaxHighlighter>
+									);
+								})}
+							</TabPane>
+						)}
 					</Tabs>
 				</div>
 			) : (

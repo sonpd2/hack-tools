@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Typography, Row, Col, Input, Select, Divider, message, Descriptions, Modal, Tabs, Alert } from 'antd';
+import { SendOutlined } from '@ant-design/icons';
 import { vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import PersistedState from 'use-persisted-state';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -120,7 +121,7 @@ export default (props) => {
 					/>
 				</Col>
 				<Col>
-					<Button type='primary' onClick={() => fetchData()}>
+					<Button type='primary' onClick={() => fetchData()} icon={<SendOutlined />}>
 						Send
 					</Button>
 				</Col>

@@ -8,10 +8,8 @@ import './assets/css/style.css';
 import ReactGA from 'react-ga';
 
 
-function initializeReactGA() {
-    ReactGA.initialize('G-20RZL4GDV4');
-    ReactGA.pageview('/');
-}
+ReactGA.initialize('G-20RZL4GDV4');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
 	return (

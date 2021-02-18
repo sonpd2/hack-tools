@@ -29,13 +29,6 @@ const Base64Encode = () => {
 				setOutput('Unable to decode properly : Incorrect base64 :-( ');
 				message.error('Incorrect Base64 please try something else');
 			}
-		} else if (type === 'decode_url') {
-			try {
-				setOutput(decodeURI(input));
-			} catch (ex) {
-				setOutput('Unable to decode properly : Incorrect base64 :-( ');
-				message.error('Incorrect Base64 please try something else');
-			}
 		}
 		return;
 	};

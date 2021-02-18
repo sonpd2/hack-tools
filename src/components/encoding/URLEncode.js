@@ -9,7 +9,7 @@ const IconFont = createFromIconfontCN({
 	scriptUrl: [ './iconfont.js' ]
 });
 
-const Base64Encode = () => {
+const URLEncode = () => {
 	const [ input, setInput ] = useState('');
 	const [ output, setOutput ] = useState('');
 	const { TextArea } = Input;
@@ -26,8 +26,8 @@ const Base64Encode = () => {
 			try {
 				setOutput(decodeURI(input));
 			} catch (ex) {
-				setOutput('Unable to decode properly : Incorrect base64 :-( ');
-				message.error('Incorrect Base64 please try something else');
+				setOutput('Unable to decode properly : Incorrect URL :-( ');
+				message.error('Incorrect URL please try something else');
 			}
 		}
 		return;
@@ -106,4 +106,4 @@ const Base64Encode = () => {
 	);
 };
 
-export default Base64Encode;
+export default URLEncode;

@@ -6,8 +6,7 @@ import { goTo } from "react-chrome-extension-router";
 import ReverseShell from "./ReverseShell";
 import PhpReverseShell from "./PhpReverseShell";
 import TtySpawnShell from "./TtySpawnShell";
-import Base64Encode from "./encoding/Base64Encode";
-import HexEncode from "./encoding/HexEncode";
+import Encode_Decode from "./encoding/Encode_Decode"
 import Hashing from "./encoding/Hashing";
 import LinuxCommands from "./LinuxCommands";
 import PowershellCommands from "./PowershellCommands";
@@ -127,11 +126,11 @@ export default (props) => {
           style={{ fontSize: "1.5em", marginTop: 3 }}
         />
       ),
-      name: "Base64 Encoder / Decoder",
-      componentRoute: Base64Encode,
+      name: "Encode/Decode",
+      componentRoute: Encode_Decode,
     },
     {
-      key: "11",
+      key: "12",
       icon: (
         <IconFont
           type="icon-hash"
@@ -142,18 +141,7 @@ export default (props) => {
       componentRoute: Hashing,
     },
     {
-      key: "12",
-      icon: (
-        <IconFont
-          type="icon-hexo"
-          style={{ fontSize: "1.5em", marginTop: 3 }}
-        />
-      ),
-      name: "Hexadecimal Encoder / Decoder",
-      componentRoute: HexEncode,
-    },
-    {
-      key: "13",
+      key: "14",
       icon: (
         <Badge dot size="small" style={{ transform: `translate(3px, 5px)` }}>
           <IconFont
@@ -166,7 +154,7 @@ export default (props) => {
       componentRoute: FeedRSS,
     },
     {
-      key: "14",
+      key: "15",
       icon: (
         <IconFont
           type="icon-about"
@@ -175,7 +163,7 @@ export default (props) => {
       ),
       name: "About us",
       componentRoute: AboutUs,
-    }
+    },
   ];
 
   const MenuItemsLists = Tabs.map((item) => (
@@ -244,9 +232,9 @@ export default (props) => {
         <Footer style={{ textAlign: "center" }}>
           <CopyrightCircleOutlined /> Hack Tools - The all in one Red team
           browser extension for web pentesters
-          <Paragraph style={{ textAlign: "center" }}>
-            Ludovic COULON - Riadh BOUCHAHOUA
-          </Paragraph>
+          <Paragraph style={{ textAlign: "center" }}>HackTools is created by Ludovic COULON and Riadh BOUCHAHOUA</Paragraph>
+			    <Paragraph style={{ textAlign: "center" }}><a href="https://github.com/sonpd2/hack-tools" target="_blank">HackTools is customed by SonPD2</a></Paragraph>
+          <Paragraph style={{ textAlign: "center" }}><a href="https://nhantien.momo.vn/0978220328" target="_blank">Donate money for me</a></Paragraph>
           <pre style={{ textAlign: "center" }}>HackTools Version - 0.3.3</pre>
           <Button
             icon={<FullscreenOutlined style={{ margin: 5 }} />}

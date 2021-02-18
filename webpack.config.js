@@ -54,5 +54,13 @@ module.exports = {
 				use: [ 'file-loader' ]
 			}
 		]
+	},
+	devServer: {
+		compress: true,
+		inline: true,
+		port: '80',
+		allowedHosts: [
+			'phamdinhson.net'
+		]
 	}
 };

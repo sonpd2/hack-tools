@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "watch": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode production"
+    "start": "webpack-dev-server --mode production --public=https://phamdinhson.net:443"
   },
   "keywords": [],
   "author": "Ludovic COULON & Riadh BOUCHAHOUA",

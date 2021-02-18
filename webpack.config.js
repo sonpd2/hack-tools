@@ -58,7 +58,7 @@ module.exports = {
 	devServer: {
 		compress: true,
 		inline: true,
-		port: '80',
+		port: '8080',
 		allowedHosts: [
 			'phamdinhson.net'
 		]

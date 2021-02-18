@@ -22,8 +22,8 @@ export default (props) => (
 				marginTop: 15
 			}}
 		>
-			<Paragraph>HackTools is created by Ludovic COULON and Riadh BOUCHAHOUA</Paragraph>
-			<Paragraph>HackTools is customed by SonPD2</Paragraph>
+			<Paragraph>Hack Tools is created by Ludovic COULON and Riadh BOUCHAHOUA</Paragraph>
+			<Paragraph>Pentest Cheatsheet is customed by SonPD2 based on Hack Tools</Paragraph>
 			<a href='https://nhantien.momo.vn/0978220328' target='_blank' rel='noreferrer noopener'>
 				<img
 					src='https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png'

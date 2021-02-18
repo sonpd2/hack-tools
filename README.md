@@ -1,11 +1,11 @@
 <div align="center">
   <img alt="logo_hack_tools" src="https://i.postimg.cc/GtLdZ2rZ/noun-Panama-hat-1454601.png" />
-  <h1>Welcome to HackTools 🛠</h1>
+  <h1>Welcome to Pentest Cheatsheet 🛠</h1>
   <p>
     <img alt="Version" src="https://img.shields.io/badge/version-0.3.3-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
     <img alt="release" src="https://img.shields.io/github/v/release/LasCC/Hack-Tools?color=yellow&style=for-the-badge" />
-    <a href="https://addons.mozilla.org/en-US/firefox/addon/hacktools" target="_blank">
-      <img alt="mozilla" src="https://img.shields.io/amo/v/hacktools?color=purple&label=mozilla%20addons&logo=mozilla&style=for-the-badge" />
+    <a href="https://addons.mozilla.org/en-US/firefox/addon/Pentest Cheatsheet" target="_blank">
+      <img alt="mozilla" src="https://img.shields.io/amo/v/Pentest Cheatsheet?color=purple&label=mozilla%20addons&logo=mozilla&style=for-the-badge" />
     </a>
     <a href="https://chrome.google.com/webstore/detail/hack-tools/cmbndhnoonmghfofefkcccljbkdpamhi?hl=en" target="_blank">
       <img alt="chrome-extension" src="https://img.shields.io/chrome-web-store/v/cmbndhnoonmghfofefkcccljbkdpamhi?style=for-the-badge" />
@@ -29,9 +29,9 @@
 
 ### The all-in-one Red Team browser extension for **Web Pentesters**
 
-HackTools, is a web extension facilitating your **web application penetration tests**, it includes **cheat sheets** as well as all the **tools** used during a test such as XSS payloads, Reverse shells and much more.
+Pentest Cheatsheet, is a web extension facilitating your **web application penetration tests**, it includes **cheat sheets** as well as all the **tools** used during a test such as XSS payloads, Reverse shells and much more.
 
-With the extension you **no longer need to search for payloads in different websites** or in your local storage space, most of the tools are accessible in one click. HackTools is accessible either in **pop up mode** or in a whole tab in the **Devtools** part of the browser with F12.
+With the extension you **no longer need to search for payloads in different websites** or in your local storage space, most of the tools are accessible in one click. Pentest Cheatsheet is accessible either in **pop up mode** or in a whole tab in the **Devtools** part of the browser with F12.
 
 ### Current functions
 
@@ -82,7 +82,7 @@ Otherwise, you can build the project yourself from the source code
 
 ### Mozilla Firefox
 
-You can download **HackTools** on the Firefox browser add-ons [here.](https://addons.mozilla.org/en-US/firefox/addon/hacktools/)
+You can download **Pentest Cheatsheet** on the Firefox browser add-ons [here.](https://addons.mozilla.org/en-US/firefox/addon/Pentest Cheatsheet/)
 
 ### Build from source code
 
@@ -116,4 +116,4 @@ You can give a ⭐️ if this project helped you !
 
 Note that this project is maintained, developed and made available for **free**, you can offer us a coffee, it will be very **encouraging and greatly appreciated** 😊
 
-<a href="https://www.paypal.me/hacktoolsEXT" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important"></a>
+<a href="https://www.paypal.me/Pentest CheatsheetEXT" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important"></a>

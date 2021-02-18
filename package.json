@@ -1,5 +1,5 @@
 {
-  "name": "HackTools",
+  "name": "Pentest Cheatsheet",
   "version": "0.1.0a",
   "description": "The all in one Red team browser extension for web pentesters",
   "main": "index.js",

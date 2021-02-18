@@ -230,12 +230,12 @@ export default (props) => {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          <CopyrightCircleOutlined /> Hack Tools - The all in one Red team
+          <CopyrightCircleOutlined /> Pentest Cheatsheet - The all in one Red team
           browser extension for web pentesters
-          <Paragraph style={{ textAlign: "center" }}>HackTools is created by Ludovic COULON and Riadh BOUCHAHOUA</Paragraph>
-			    <Paragraph style={{ textAlign: "center" }}><a href="https://github.com/sonpd2/hack-tools" target="_blank">HackTools is customed by SonPD2</a></Paragraph>
+          <Paragraph style={{ textAlign: "center" }}>Hack Tools is created by Ludovic COULON and Riadh BOUCHAHOUA</Paragraph>
+			    <Paragraph style={{ textAlign: "center" }}><a href="https://github.com/sonpd2/hack-tools" target="_blank">Pentest Cheatsheet is customed by SonPD2 based on Hack Tools</a></Paragraph>
           <Paragraph style={{ textAlign: "center" }}><a href="https://nhantien.momo.vn/0978220328" target="_blank">Donate money for me</a></Paragraph>
-          <pre style={{ textAlign: "center" }}>HackTools Version - 0.3.3</pre>
+          <pre style={{ textAlign: "center" }}>Pentest Cheatsheet Version - 0.3.3</pre>
           <Button
             icon={<FullscreenOutlined style={{ margin: 5 }} />}
             type="link"
